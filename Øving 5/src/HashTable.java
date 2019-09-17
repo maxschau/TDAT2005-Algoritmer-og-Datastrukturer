@@ -4,11 +4,16 @@ public class HashTable {
     private Node[] hashTable;
     private int counter = 0;
     private int amtOfElements = 0;
+    private double loadFactor = 0;
 
 
     public HashTable(int n) {
         hashTable = new Node[n];
         sizeOfTable = hashTable.length;
+    }
+
+    public int getAmtOfElements() {
+        return amtOfElements;
     }
 
     public int getSizeOfTable() {
@@ -19,6 +24,7 @@ public class HashTable {
         return counter;
     }
 
+    //Oppgave 1
     public int convertStringToInt(String s) {
         int sum= 0;
         int multiplicator = s.length();
@@ -37,21 +43,21 @@ public class HashTable {
         } else {
             System.out.println(s + " is colliding with " + hashTable[index].getElement());
             counter++;
-            Node curr = hashTable[index].getNext();
-            while (curr != null) {
+            Node curr = hashTable[index];
+            while (curr.next != null) {
                 curr = curr.getNext();
             }
-            curr = new Node(s); //WILL THIS WORK????!!!!
-            //I dont think so............
+            Node n = new Node(s);
+            curr.setNext(n);
         }
         amtOfElements++;
+    }
 
+    public double getCollisionsPerPerson() {
+        return (double)counter/(double)amtOfElements;
     }
 
     public double getLoadFactor() {
-        System.out.println("amt of elements: " + amtOfElements);
-        System.out.println("Sizze of table: " + sizeOfTable);
-        System.out.println("Collisions per person:" + ((double)counter/(double)amtOfElements));
         return (double) amtOfElements / (double) sizeOfTable;
     }
 
@@ -62,10 +68,11 @@ public class HashTable {
         return key % size;
     }
 
+
     public String toString() {
         String res = "";
         for (int i = 0; i < hashTable.length; i++) {
-            //res = res.concat("Element " + i + ": " + hashTable[i].printList() + "\n");
+           // res = res.concat("Element " + i + ": " + hashTable[i].printList() + "\n");
         }
         return res;
     }
