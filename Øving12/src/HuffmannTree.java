@@ -7,7 +7,10 @@ public class HuffmannTree {
     //PriorityQueue<Node> priorityQueue;
     int[] frequencies = new int[256];
     ArrayList<Node> characters;
+    ArrayList<Node> original = new ArrayList<>();
     ArrayList<Node> codeBank = new ArrayList<>();
+    String originalWord ="";
+
 
 
     public HuffmannTree() {
@@ -22,6 +25,7 @@ public class HuffmannTree {
             while ((c = br.read()) != -1)         //Read char by Char
             {
                 char character = (char) c;          //converting integer to char
+                originalWord += character;
                 if ((int) c >= 0 && (int) c <= 256) {
                     frequencies[(int) c]++;
                 }
@@ -32,6 +36,7 @@ public class HuffmannTree {
                 if (frequencies[i] != 0) {
                     Node n = new Node((char) i, frequencies[i]);
                     characters.add(n);
+                    original.add(n);
                 }
             }
         } catch (Exception e) {
@@ -41,7 +46,6 @@ public class HuffmannTree {
 
     //Returns the parent?
     public Node fix_heap() {
-
 
         Collections.sort(characters, new SortByFrequency());
         while (characters.size() >= 2) {
@@ -77,6 +81,30 @@ public class HuffmannTree {
         }
         //System.out.println(characters.toString());
         return characters.get(0);
+    }
+
+    String resetOrder(ArrayList<Node> code) {
+        String out = "";
+        for (int i = 0; i < originalWord.length(); i++) {
+            char c = originalWord.charAt(i);
+            for (int j = 0; j < code.size(); j++) {
+                if (code.get(j).character == c) {
+                    out += code.get(j).binary;
+                    break;
+                }
+            }
+        }
+        return out;
+    }
+
+    public String tryingToCompress() {
+        System.out.println("Kan det gå da???");
+        String out = "";
+        for (Node n : codeBank) {
+            out += n.binary;
+        }
+        return out;
+
     }
 
     private Node findSmallest() {
