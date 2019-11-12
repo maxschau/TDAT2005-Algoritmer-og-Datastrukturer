@@ -4,6 +4,7 @@ public class Node {
     Node left;
     Node right;
     int value;
+    String binary;
 
     public Node(char character, int frequency) {
         this.frequency = frequency;
@@ -16,10 +17,16 @@ public class Node {
         this.value = value;
         this.left = left;
         this.right= right;
+
     }
 
-    public boolean isParent(Node n) {
-        if (n.right != null || n.left != null) {
+    public Node(char character, String binary) {
+        this.character = character;
+        this.binary = binary;
+    }
+
+    public boolean isParent() {
+        if (right != null || left != null) {
             return true;
         } else {
             return false;
@@ -40,9 +47,12 @@ public class Node {
 
     @Override
     public String toString() {
-        if (character != 0) {
+        if (character != 0 && binary == null) {
             return "Char: " + character + " frequency: " +frequency;
-        } else {
+        } else if (binary != null && frequency == 0) {
+            return "Char: '" + character + "'  binary: " + binary;
+        }
+        else {
             return "Value: " + value;
         }
 
