@@ -128,7 +128,7 @@ Hvis tallet er positivt, angir det lengden på en repetert
 sekvens. De neste 1, 2 eller 4 byte er et heltall som forteller 
 hvor langt bakover i fila denne sekvensen er å finne. Med 1 byte 
 (byte) er det bare mulig å gå 127 tegn bakover. Programmet blir 
-raskt, men komprimerer antagelig ikke så kraftig. Med 2 byte 
+raskt, men komprimerer antagelig ikke så kraftig. Med 2 byte
 (short) går det an å gå opp til 32 kB bakover, men vi bruker 
 altså opp en ekstra byte. Med 4 byte (int) kan vi gå opp til 2 GB 
 bakover. Det gir mange flere muligheter for å finne repeterte 

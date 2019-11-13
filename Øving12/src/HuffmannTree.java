@@ -1,11 +1,11 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 public class HuffmannTree {
     //PriorityQueue<Node> priorityQueue;
-    int[] frequencies = new int[256];
+    int[] frequencies = new int[255];
     ArrayList<Node> characters;
     ArrayList<Node> original = new ArrayList<>();
     ArrayList<Node> codeBank = new ArrayList<>();
@@ -17,7 +17,7 @@ public class HuffmannTree {
         characters = new ArrayList<>();
     }
 
-    public void createTree(File f) {
+    public void readFromFile(File f) {
         try {
             FileReader fr = new FileReader(f);   //Creation of File Reader object
             BufferedReader br = new BufferedReader(fr);  //Creation of BufferedReader object
@@ -31,6 +31,18 @@ public class HuffmannTree {
                 }
             }
 
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setFrequencies(int[] newValue) {
+        this.frequencies = newValue;
+    }
+
+    public void createTree() {
+        try {
             //Adding the nodes to the arraylist
             for (int i = 0; i < frequencies.length; i++) {
                 if (frequencies[i] != 0) {
@@ -46,7 +58,6 @@ public class HuffmannTree {
 
     //Returns the parent?
     public Node fix_heap() {
-
         Collections.sort(characters, new SortByFrequency());
         while (characters.size() >= 2) {
             Node parent;
@@ -75,11 +86,8 @@ public class HuffmannTree {
                 parent = new Node(characters.get(0).value + characters.get(1).value, characters.get(0), characters.get(1));
             }
             */
-
-
             characters.add(parent);
         }
-        //System.out.println(characters.toString());
         return characters.get(0);
     }
 
@@ -125,6 +133,39 @@ public class HuffmannTree {
             }
         }
         return copy.get(index);
+    }
+
+    byte[] createByteArray(String res) {
+        BitSet bs = new BitSet(res.length());
+        for (int i = 0; i < res.length(); i ++) {
+            if (res.charAt(i) == '1') {
+                bs.set(i);
+            } else if (res.charAt(i) == '0') {
+                bs.clear(i);
+            }
+        }
+        return bs.toByteArray();
+    }
+
+    byte[] createByteArray() {
+        ArrayList<Byte> byteArrayList = new ArrayList<>();
+        for (int i = 0; i < frequencies.length; i++) {
+            if(frequencies[i] != 0) {
+                byteArrayList.add((byte) i);
+                byte[] freq = ByteBuffer.allocate(4).putInt(frequencies[i]).array();
+                byteArrayList.add(freq[0]);
+                byteArrayList.add(freq[1]);
+                byteArrayList.add(freq[2]);
+                byteArrayList.add(freq[3]);
+            }
+        }
+
+
+        byte[] bytesArray = new byte[byteArrayList.size()];
+        for (int i = 0; i < byteArrayList.size(); i++) {
+            bytesArray[i] = byteArrayList.get(i);
+        }
+        return bytesArray;
     }
 
     /*
