@@ -26,6 +26,7 @@ public class HuffmannTree {
             {
                 char character = (char) c;          //converting integer to char
                 originalWord += character;
+                System.out.println("char: " + character);
                 if ((int) c >= 0 && (int) c <= 256) {
                     frequencies[(int) c]++;
                 }
@@ -56,7 +57,7 @@ public class HuffmannTree {
         }
     }
 
-    //Returns the parent?
+
     public Node fix_heap() {
         Collections.sort(characters, new SortByFrequency());
         while (characters.size() >= 2) {
@@ -75,17 +76,6 @@ public class HuffmannTree {
             } else {
                 parent = new Node(smallest.value + leastSmallest.value, smallest, leastSmallest);
             }
-            /*
-            if (characters.get(0).value == 0 && characters.get(1).value == 0) {
-                parent = new Node(characters.get(0).frequency + characters.get(1).frequency, characters.get(0), characters.get(1));
-            } else if (characters.get(0).value != 0 && characters.get(1).frequency != 0) {
-                parent = new Node(characters.get(0).value + characters.get(1).frequency, characters.get(0), characters.get(1));
-            } else if (characters.get(0).frequency != 0 && characters.get(1).value != 0) {
-                parent = new Node(characters.get(0).frequency + characters.get(1).value, characters.get(0), characters.get(1));
-            } else {
-                parent = new Node(characters.get(0).value + characters.get(1).value, characters.get(0), characters.get(1));
-            }
-            */
             characters.add(parent);
         }
         return characters.get(0);
@@ -105,15 +95,6 @@ public class HuffmannTree {
         return out;
     }
 
-    public String tryingToCompress() {
-        System.out.println("Kan det gå da???");
-        String out = "";
-        for (Node n : codeBank) {
-            out += n.binary;
-        }
-        return out;
-
-    }
 
     private Node findSmallest() {
         ArrayList<Node> copy = characters;

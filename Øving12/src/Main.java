@@ -41,8 +41,10 @@ class Main{
         System.out.println(Arrays.toString(huffmannTree.frequencies));
 
 
+
         try (DataOutputStream stream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("C:\\Programmering\\NTNU\\Algoritmer og datastrukturer\\Øving12\\src\\out.txt")))) {
             stream.writeInt(bytesFreq.length); //Length of frequencies array:
+            //System.out.println("Bytes freq: " + bytesFreq.length);
             stream.write(bytesFreq);        //The frequency array
             stream.write(byteFromString);
         } catch (Exception e) {
@@ -53,6 +55,7 @@ class Main{
         File file1 = new File("C:\\Programmering\\NTNU\\Algoritmer og datastrukturer\\Øving12\\src\\out.txt");
         Decompresser decompresser = new Decompresser();
         decompresser.readFromFile(file1);
+        decompresser.recreateFile();
 
 
 

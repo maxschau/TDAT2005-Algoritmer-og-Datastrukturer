@@ -15,6 +15,9 @@ public class Decompresser {
     int lengthFreq;
     String binaryRep = "";
     int lenFreq = 0;
+    Node parent;
+    String res = "";
+
 
 
 
@@ -51,7 +54,7 @@ public class Decompresser {
             HuffmannTree huffmannTree = new HuffmannTree();
             huffmannTree.setFrequencies(frequencies);
             huffmannTree.createTree();
-            Node parent = huffmannTree.fix_heap();
+            parent = huffmannTree.fix_heap();
             huffmannTree.makeCodeBank(parent, "");
             //huffmannTree.printTree(parent);
 
@@ -72,6 +75,41 @@ public class Decompresser {
             e.printStackTrace();
         }
     }
+    /*
+    private char traverse(Node n, char c) {
+        if (!(n.isParent())) {
+            return n.character;
+        }
+
+    }
+    */
+
+    public void recreateFile() {
+        Node n = parent;
+        res = "";
+        for (int i = 0; i < binaryRep.length(); i++) {
+                if (binaryRep.charAt(i) == '0') {
+                    n = n.left;
+                }
+                if (binaryRep.charAt(i) == '1') {
+                    n = n.right;
+                }
+                if (!(n.isParent())) {
+                    res += n.character;
+                    n = parent;
+                }
+
+        }
+        try(PrintWriter out = new PrintWriter(new File("C:\\Programmering\\NTNU\\Algoritmer og datastrukturer\\Øving12\\src\\res.txt"))) {
+            out.println(res);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("---------------");
+        System.out.println(res);
+
+    }
+
 
 
 }
